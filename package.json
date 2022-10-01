@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "rimraf dist && tsc -p tsconfig.build.json",
     "seed": "ts-node ./prisma/seed.ts",
-    "migrate:up": "npm run prisma migrate deploy",
+    "migrate:up": "npx prisma migrate deploy",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

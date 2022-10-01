@@ -1,16 +1,16 @@
-import { AppService } from 'src/services/app.service';
-import {
-  CreateEventRequest,
-} from 'src/services/dto/request/create-event-request.dto';
-import { LoginRequest } from 'src/services/dto/request/login-request.dto';
-import { LoginResponse } from 'src/services/dto/response/login-response.dto';
-
 import {
   Body,
   Controller,
   Get,
   Post,
 } from '@nestjs/common';
+
+import { AppService } from '../services/app.service';
+import {
+  CreateEventRequest,
+} from '../services/dto/request/create-event-request.dto';
+import { LoginRequest } from '../services/dto/request/login-request.dto';
+import { LoginResponse } from '../services/dto/response/login-response.dto';
 
 @Controller()
 export class AppController {

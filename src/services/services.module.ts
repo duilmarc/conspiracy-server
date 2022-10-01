@@ -1,7 +1,6 @@
-import { RepositoryModule } from 'src/persistence/repository.module';
-
 import { Module } from '@nestjs/common';
 
+import { RepositoryModule } from '../persistence/repository.module';
 import { AppService } from './app.service';
 
 const services = [AppService];

@@ -1,8 +1,4 @@
 import bcrypt = require('bcrypt');
-import {
-  CreateEventRequest,
-} from 'src/services/dto/request/create-event-request.dto';
-import { LoginRequest } from 'src/services/dto/request/login-request.dto';
 
 import {
   HttpException,
@@ -14,9 +10,12 @@ import {
   User,
 } from '@prisma/client';
 
+import {
+  CreateEventRequest,
+} from '../../services/dto/request/create-event-request.dto';
+import { LoginRequest } from '../../services/dto/request/login-request.dto';
 import { PrismaService } from '../prisma.service';
 
-const SALT_ROUNDS = 10;
 @Injectable()
 export class EventRepository {
   constructor(private prisma: PrismaService) {}

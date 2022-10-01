@@ -36,22 +36,22 @@ export class AppController {
   }
 
   @Get('my-events')
-  async getMyEvents(@Query() userId: string): Promise<Event[]> {
+  async getMyEvents(@Query('userId') userId: string): Promise<Event[]> {
     return await this.appService.listOwnEvents(userId);
   }
 
   @Get('event-subscriptions')
-  async eventSubscriptions(@Query() userId: string): Promise<Event[]> {
+  async eventSubscriptions(@Query('userId') userId: string): Promise<Event[]> {
     return await this.appService.eventSubscriptions(userId);
   }
 
   @Get('attendees')
-  async attendees(@Query() eventId: string): Promise<User[]> {
+  async attendees(@Query('eventId') eventId: string): Promise<User[]> {
     return await this.appService.listAttendees(eventId);
   }
 
   @Get('score')
-  async score(@Query() userId: string) {
+  async score(@Query('userId') userId: string) {
     return await this.appService.getScore(userId);
   }
 

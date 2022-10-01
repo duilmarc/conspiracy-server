@@ -105,10 +105,10 @@ export class EventRepository {
         eventId,
       },
     });
-    const userIds = attendances.map((user) => {
-      return user.id;
-    });
 
+    const userIds = attendances.map((attendance) => {
+      return attendance.userId;
+    });
     const users = await this.prisma.user.findMany({
       where: {
         id: { in: userIds },

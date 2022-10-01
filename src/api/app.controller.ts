@@ -10,7 +10,6 @@ import {
   Post,
 } from '@nestjs/common';
 
-}
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -22,7 +21,6 @@ export class AppController {
 
   @Post('createEvent')
   createEvent(@Body() createEventRequestDto: CreateEventRequest): string {
-
     return this.appService.createEvent(createEventRequestDto);
   }
 }

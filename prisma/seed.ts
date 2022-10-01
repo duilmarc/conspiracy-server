@@ -24,15 +24,17 @@ main()
 async function createInitialUser(): Promise<User> {
   const userPassword = 'test';
   const fullName = 'testName';
-  return await createUser(userPassword, fullName);
+  const email = 'test@test.co';
+  return await createUser(email, userPassword, fullName);
 }
 
-async function createUser(password: string, fullName: string) {
+async function createUser(email: string, password: string, fullName: string) {
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
   return await prisma.user.create({
     data: {
       fullName: fullName,
+      email: email,
       password: passwordHash,
     },
   });

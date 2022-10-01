@@ -35,6 +35,10 @@ export class AppService {
     return events;
   }
 
+  async isAttendant(eventId: string, userId: string): Promise<boolean> {
+    return await this.eventRepository.isAttendant(eventId, userId);
+  }
+
   async listAttendees(eventId: string): Promise<User[]> {
     const users = await this.eventRepository.listAttendees(eventId);
     return users;

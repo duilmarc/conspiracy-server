@@ -49,8 +49,16 @@ export class AppController {
     return await this.appService.listAttendees(eventId);
   }
 
+  @Get('isAttendant')
+  async isAttendant(
+    @Query('eventId') evenId: string,
+    @Query('userId') userId: string,
+  ) {
+    return await this.appService.isAttendant(evenId, userId);
+  }
+
   @Get('score')
-  async score(@Query('userId') userId: string) {
+  async score(@Query('userId') userId: string): Promise<{ score: number }> {
     return await this.appService.getScore(userId);
   }
 

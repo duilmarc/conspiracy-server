@@ -48,6 +48,16 @@ export class EventRepository {
     });
   }
 
+  async isAttendant(eventId: string, userId: string) {
+    const attendant = await this.prisma.attendance.findFirst({
+      where: {
+        userId,
+        eventId,
+      },
+    });
+    return Boolean(attendant);
+  }
+
   async subscriptions(userId: string): Promise<Event[]> {
     await this.validateUser(userId);
     const mySubscriptions = await this.prisma.attendance.findMany({

@@ -66,7 +66,7 @@ export class EventRepository {
       },
     });
 
-    const eventsIds = mySubscriptions.map((event) => event.id);
+    const eventsIds = mySubscriptions.map((event) => event.eventId);
 
     return await this.prisma.event.findMany({
       where: {

@@ -1,4 +1,4 @@
-import { ApplicationModule } from 'src/services/api.module';
+import { ApplicationModule } from 'src/services/services.module';
 
 import { Module } from '@nestjs/common';
 

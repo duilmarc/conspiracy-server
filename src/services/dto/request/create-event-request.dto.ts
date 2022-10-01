@@ -1,5 +1,4 @@
 import {
-  IsDate,
   IsNumber,
   IsString,
 } from 'class-validator';
@@ -8,8 +7,8 @@ export class CreateEventRequest {
   @IsString()
   eventName: string;
 
-  @IsDate()
-  eventDate: Date;
+  @IsString()
+  eventDate: string;
 
   @IsString()
   description: string;

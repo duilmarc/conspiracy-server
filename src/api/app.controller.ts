@@ -20,7 +20,9 @@ export class AppController {
   }
 
   @Post('createEvent')
-  createEvent(@Body() createEventRequestDto: CreateEventRequest): string {
+  createEvent(
+    @Body() createEventRequestDto: CreateEventRequest,
+  ): Promise<string> {
     return this.appService.createEvent(createEventRequestDto);
   }
 }

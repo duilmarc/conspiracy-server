@@ -13,15 +13,13 @@ datasource db {
 model Event {
   id                   String       @id @default(uuid())
   name                 String
-  description          String
-  shortDescription     String       @map("short_description")
   date                 DateTime
   createdAt            DateTime     @default(now())
   updatedAt            DateTime     @default(now())
-  numberOfParticipants Int          @map("number_of_participants")
   attendance           Attendance[]
   plannerId            String       @map("planner_id")
   planner              User         @relation(fields: [plannerId], references: [id])
+  channel              String
 
   @@map("event")
 }

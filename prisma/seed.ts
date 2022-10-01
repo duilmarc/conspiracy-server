@@ -22,9 +22,9 @@ main()
   });
 
 async function createInitialUser(): Promise<User> {
-  const userPassword = 'test';
-  const fullName = 'testName';
-  const email = 'test@test.co';
+  const userPassword = 'Ravngers@1';
+  const fullName = 'Ravn Test';
+  const email = 'ravn@test.co';
   return await createUser(email, userPassword, fullName);
 }
 

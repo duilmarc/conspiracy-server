@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { Event } from '@prisma/client';
 
 import { EventRepository } from '../persistence/repositories/event.repository';
+import { AttendEventRequest } from './dto/request/attend-event-request.dto';
 import { CreateEventRequest } from './dto/request/create-event-request.dto';
+import { ListEventRequest } from './dto/request/list-events-request.dto';
 import { LoginRequest } from './dto/request/login-request.dto';
 import { LoginResponse } from './dto/response/login-response.dto';
 
@@ -9,13 +12,29 @@ import { LoginResponse } from './dto/response/login-response.dto';
 export class AppService {
   constructor(private readonly eventRepository: EventRepository) {}
 
-  getHello(): string {
-    return 'Hello World!';
+  async createEvent(createPostRequest: CreateEventRequest): Promise<Event> {
+    const event = await this.eventRepository.createEvent(createPostRequest);
+    return event;
   }
 
-  async createEvent(createPostRequest: CreateEventRequest): Promise<string> {
-    await this.eventRepository.createEvent(createPostRequest);
-    return 'Hello World!';
+  async listEvents(listEventsRequest: ListEventRequest): Promise<Event[]> {
+    const events = await this.eventRepository.listEvents(listEventsRequest);
+    return events;
+  }
+
+  async listOwnEvents(userId: string): Promise<Event[]> {
+    const events = await this.eventRepository.listEventsByUser(userId);
+    return events;
+  }
+
+  async attendEvent(attendEventRequest: AttendEventRequest): Promise<Event> {
+    const event = await this.eventRepository.attend(attendEventRequest);
+    return event;
+  }
+
+  async getScore(userId: string): Promise<{ score: number }> {
+    const score = await this.eventRepository.getScore(userId);
+    return { score };
   }
 
   async login(loginRequest: LoginRequest): Promise<LoginResponse> {

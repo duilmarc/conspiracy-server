@@ -1,7 +1,4 @@
-import {
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateEventRequest {
   @IsString()
@@ -11,14 +8,8 @@ export class CreateEventRequest {
   eventDate: string;
 
   @IsString()
-  description: string;
-
-  @IsString()
-  shortDescription: string;
-
-  @IsString()
   eventPlanner: string;
 
-  @IsNumber()
-  numberOfParticipants: number;
+  @IsString()
+  channel: string;
 }

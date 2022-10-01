@@ -1,4 +1,7 @@
-import { IsDate } from 'class-validator';
+import {
+  IsDate,
+  IsString,
+} from 'class-validator';
 
 export class ListEventRequest {
   @IsDate()
@@ -6,4 +9,7 @@ export class ListEventRequest {
 
   @IsDate()
   endDate: Date;
+
+  @IsString()
+  channel: string;
 }

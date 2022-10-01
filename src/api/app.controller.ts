@@ -12,7 +12,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Event } from '@prisma/client';
+import {
+  Event,
+  User,
+} from '@prisma/client';
 
 import { AppService } from '../services/app.service';
 import {
@@ -25,11 +28,6 @@ import { LoginResponse } from '../services/dto/response/login-response.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Post('login')
-  async login(@Body() loginRequestDto: LoginRequest): Promise<LoginResponse> {
-    return await this.appService.login(loginRequestDto);
-  }
-
   @Get('list')
   async listEvents(
     @Query() listEventsRequestDto: ListEventRequest,
@@ -37,9 +35,24 @@ export class AppController {
     return await this.appService.listEvents(listEventsRequestDto);
   }
 
-  @Post('attend')
-  async attendEvent(@Body() attendEvent: AttendEventRequest): Promise<Event> {
-    return await this.appService.attendEvent(attendEvent);
+  @Get('my-events')
+  async getMyEvents(@Query() userId: string): Promise<Event[]> {
+    return await this.appService.listOwnEvents(userId);
+  }
+
+  @Get('event-subscriptions')
+  async eventSubscriptions(@Query() userId: string): Promise<Event[]> {
+    return await this.appService.eventSubscriptions(userId);
+  }
+
+  @Get('attendees')
+  async attendees(@Query() eventId: string): Promise<User[]> {
+    return await this.appService.listAttendees(eventId);
+  }
+
+  @Get('score')
+  async score(@Query() userId: string) {
+    return await this.appService.getScore(userId);
   }
 
   @Post('createEvent')
@@ -49,8 +62,13 @@ export class AppController {
     return await this.appService.createEvent(createEventRequestDto);
   }
 
-  @Get('score')
-  async score(@Query() userId: string) {
-    return await this.appService.getScore(userId);
+  @Post('attend')
+  async attendEvent(@Body() attendEvent: AttendEventRequest): Promise<Event> {
+    return await this.appService.attendEvent(attendEvent);
+  }
+
+  @Post('login')
+  async login(@Body() loginRequestDto: LoginRequest): Promise<LoginResponse> {
+    return await this.appService.login(loginRequestDto);
   }
 }

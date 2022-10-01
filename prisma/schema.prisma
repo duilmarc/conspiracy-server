@@ -11,15 +11,15 @@ datasource db {
 }
 
 model Event {
-  id                   String       @id @default(uuid())
-  name                 String
-  date                 DateTime
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @default(now())
-  attendance           Attendance[]
-  plannerId            String       @map("planner_id")
-  planner              User         @relation(fields: [plannerId], references: [id])
-  channel              String
+  id         String       @id @default(uuid())
+  name       String
+  date       DateTime
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now())
+  attendance Attendance[]
+  plannerId  String       @map("planner_id")
+  planner    User         @relation(fields: [plannerId], references: [id])
+  channel    String
 
   @@map("event")
 }
@@ -37,8 +37,8 @@ model User {
   email      String       @unique
   fullName   String       @map("full_name")
   password   String
-  createdAt  DateTime     @default(now())  @map("created_at")
-  updatedAt  DateTime     @default(now())  @map("updated_at")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @default(now()) @map("updated_at")
   attendance Attendance[]
   Event      Event[]
 }

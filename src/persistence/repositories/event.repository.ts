@@ -26,6 +26,17 @@ import { PrismaService } from '../prisma.service';
 export class EventRepository {
   constructor(private prisma: PrismaService) {}
 
+  async validateUser(userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new HttpException('User doesnt exist', HttpStatus.FORBIDDEN);
+    }
+  }
+
   async createEvent(data: CreateEventRequest): Promise<Event> {
     return await this.prisma.event.create({
       data: {
@@ -37,19 +48,42 @@ export class EventRepository {
     });
   }
 
+  async subscriptions(userId: string): Promise<Event[]> {
+    await this.validateUser(userId);
+    const mySubscriptions = await this.prisma.attendance.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+
+    const eventsIds = mySubscriptions.map((event) => event.id);
+
+    return await this.prisma.event.findMany({
+      where: {
+        id: { in: eventsIds },
+        date: {
+          gte: new Date(),
+        },
+      },
+    });
+  }
+
   async listEvents(listEventsRequest: ListEventRequest) {
-    const { startDate, endDate } = listEventsRequest;
+    const { startDate, endDate, channel } = listEventsRequest;
     return await this.prisma.event.findMany({
       where: {
         date: {
           lte: endDate,
           gte: startDate,
         },
+        channel,
       },
     });
   }
 
   async listEventsByUser(userId: string): Promise<Event[]> {
+    await this.validateUser(userId);
+
     return await this.prisma.event.findMany({
       where: {
         plannerId: userId,
@@ -57,16 +91,36 @@ export class EventRepository {
     });
   }
 
-  async attend(attendEventRequest: AttendEventRequest) {
-    const { userId, eventId } = attendEventRequest;
-    const user = await this.prisma.user.findFirst({
+  async listAttendees(eventId: string): Promise<User[]> {
+    const event = await this.prisma.event.findFirst({
       where: {
-        id: userId,
+        id: eventId,
       },
     });
-    if (!user) {
-      throw new HttpException('User doesnt exist', HttpStatus.FORBIDDEN);
+    if (!event) {
+      throw new HttpException('Event doesnt exist', HttpStatus.FORBIDDEN);
     }
+    const attendances = await this.prisma.attendance.findMany({
+      where: {
+        eventId,
+      },
+    });
+    const userIds = attendances.map((user) => {
+      return user.id;
+    });
+
+    const users = await this.prisma.user.findMany({
+      where: {
+        id: { in: userIds },
+      },
+    });
+
+    return users;
+  }
+
+  async attend(attendEventRequest: AttendEventRequest) {
+    const { userId, eventId } = attendEventRequest;
+    await this.validateUser(userId);
     const event = await this.prisma.event.findFirst({
       where: {
         id: eventId,
@@ -91,6 +145,9 @@ export class EventRepository {
         email: data.userName,
       },
     });
+    if (!user)
+      throw new HttpException('User doesnt exist ', HttpStatus.FORBIDDEN);
+
     const validLogin = bcrypt.compare(data.password, user.password);
     if (!validLogin) {
       throw new HttpException('Incorrect password', HttpStatus.FORBIDDEN);
@@ -99,16 +156,23 @@ export class EventRepository {
   }
 
   async getScore(userId: string): Promise<number> {
-    const creator = await this.prisma.event.count({
-      where: {
-        plannerId: userId,
-      },
-    });
-    const attender = await this.prisma.attendance.count({
-      where: { userId },
-    });
+    try {
+      const creator = await this.prisma.event.count({
+        where: {
+          plannerId: userId,
+        },
+      });
+      const attender = await this.prisma.attendance.count({
+        where: { userId },
+      });
 
-    const score = creator * 5 + attender;
-    return score;
+      const score = creator * 5 + attender;
+      return score;
+    } catch (e) {
+      throw new HttpException(
+        `Couldnt get score for ${userId}`,
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 }

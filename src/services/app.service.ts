@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Event } from '@prisma/client';
+import {
+  Event,
+  User,
+} from '@prisma/client';
 
 import { EventRepository } from '../persistence/repositories/event.repository';
 import { AttendEventRequest } from './dto/request/attend-event-request.dto';
@@ -25,6 +28,16 @@ export class AppService {
   async listOwnEvents(userId: string): Promise<Event[]> {
     const events = await this.eventRepository.listEventsByUser(userId);
     return events;
+  }
+
+  async eventSubscriptions(userId: string): Promise<Event[]> {
+    const events = await this.eventRepository.subscriptions(userId);
+    return events;
+  }
+
+  async listAttendees(eventId: string): Promise<User[]> {
+    const users = await this.eventRepository.listAttendees(eventId);
+    return users;
   }
 
   async attendEvent(attendEventRequest: AttendEventRequest): Promise<Event> {

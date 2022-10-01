@@ -1,7 +1,4 @@
 import bcrypt = require('bcrypt');
-import {
-  AttendEventRequest,
-} from 'src/services/dto/request/attend-event-request.dto';
 
 import {
   HttpException,
@@ -13,6 +10,9 @@ import {
   User,
 } from '@prisma/client';
 
+import {
+  AttendEventRequest,
+} from '../../services/dto/request/attend-event-request.dto';
 import {
   CreateEventRequest,
 } from '../../services/dto/request/create-event-request.dto';

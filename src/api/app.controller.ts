@@ -1,11 +1,4 @@
 import {
-  AttendEventRequest,
-} from 'src/services/dto/request/attend-event-request.dto';
-import {
-  ListEventRequest,
-} from 'src/services/dto/request/list-events-request.dto';
-
-import {
   Body,
   Controller,
   Get,
@@ -19,8 +12,14 @@ import {
 
 import { AppService } from '../services/app.service';
 import {
+  AttendEventRequest,
+} from '../services/dto/request/attend-event-request.dto';
+import {
   CreateEventRequest,
 } from '../services/dto/request/create-event-request.dto';
+import {
+  ListEventRequest,
+} from '../services/dto/request/list-events-request.dto';
 import { LoginRequest } from '../services/dto/request/login-request.dto';
 import { LoginResponse } from '../services/dto/response/login-response.dto';
 

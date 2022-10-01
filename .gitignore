@@ -396,3 +396,10 @@ Temporary Items
 # Local
 .env
 dist
+
+
+/node_modules
+/dist
+npm-debug.log
+.DS_Store
+/*.env

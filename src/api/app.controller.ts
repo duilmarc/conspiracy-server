@@ -2,6 +2,8 @@ import { AppService } from 'src/services/app.service';
 import {
   CreateEventRequest,
 } from 'src/services/dto/request/create-event-request.dto';
+import { LoginRequest } from 'src/services/dto/request/login-request.dto';
+import { LoginResponse } from 'src/services/dto/response/login-response.dto';
 
 import {
   Body,
@@ -19,10 +21,15 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Post('login')
+  async login(@Body() loginRequestDto: LoginRequest): Promise<LoginResponse> {
+    return await this.appService.login(loginRequestDto);
+  }
+
   @Post('createEvent')
-  createEvent(
+  async createEvent(
     @Body() createEventRequestDto: CreateEventRequest,
   ): Promise<string> {
-    return this.appService.createEvent(createEventRequestDto);
+    return await this.appService.createEvent(createEventRequestDto);
   }
 }

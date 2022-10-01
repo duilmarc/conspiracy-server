@@ -20,7 +20,7 @@ model Event {
   updatedAt            DateTime     @default(now())
   numberOfParticipants Int          @map("number_of_participants")
   attendance           Attendance[]
-  plannerId            String
+  plannerId            String       @map("planner_id")
   planner              User         @relation(fields: [plannerId], references: [id])
 
   @@map("event")
@@ -36,9 +36,10 @@ model Attendance {
 
 model User {
   id         String       @id @default(uuid())
+  fullName   String       @map("full_name")
   password   String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @default(now())
+  createdAt  DateTime     @default(now())  @map("created_at")
+  updatedAt  DateTime     @default(now())  @map("updated_at")
   attendance Attendance[]
   Event      Event[]
 }
